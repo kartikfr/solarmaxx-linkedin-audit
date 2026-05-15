@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SolarMaxx — LinkedIn Audit & Design Comparison by xto100x</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --blue:      #006DB1;
+      --blue-d:    #00538A;
+      --blue-l:    #E8F4FC;
+      --gold:      #F5A800;
+      --gold-d:    #C98800;
+      --gold-l:    #FFF8E6;
+      --navy:      #0A1628;
+      --navy-m:    #142240;
+      --navy-l:    #1C3160;
+      --white:     #FFFFFF;
+      --bg:        #F5F7FB;
+      --bg2:       #EBEFF8;
+      --surface:   #FFFFFF;
+      --border:    #DDE3F0;
+      --border-m:  #C5D0E8;
+      --ink:       #0A1628;
+      --ink-m:     #2A3F5C;
+      --ink-l:     #56708C;
+      --red:       #C8281E;
+      --green:     #0B7235;
+
+      --grad-hero:  linear-gradient(150deg, #0A1628 0%, #142240 45%, #0A3A6E 100%);
+      --grad-gold:  linear-gradient(90deg, #F5A800 0%, #FFD060 100%);
+      --grad-blue:  linear-gradient(90deg, #006DB1 0%, #3A9FD4 100%);
+      --grad-card:  linear-gradient(160deg, #FFFFFF 0%, #F5F7FB 100%);
+
+      /* Font stack: same family as SolarYaan audit */
+      --fdisp: 'Playfair Display', Georgia, serif;
+      --fh:    'Montserrat', system-ui, sans-serif;
+      --fb:    'Poppins', system-ui, sans-serif;
+
+      --r-sm:  10px;
+      --r-md:  16px;
+      --r-lg:  22px;
+      --r-xl:  28px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    button { -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--fb);
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+      font-size: 15.5px;
+      line-height: 1.72;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ══ INTRO SPLASH ══ */
+    #intro {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--grad-hero);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 18px; cursor: pointer; padding: 40px; text-align: center;
+      transition: opacity 0.7s ease, visibility 0.7s ease;
+    }
+    #intro::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 70% 50% at 50% 25%, rgba(245,168,0,0.14) 0%, transparent 65%);
+    }
+    #intro.out { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .i-logo {
+      width: min(200px, 52vw);
+      animation: popIn 0.65s cubic-bezier(.34,1.56,.64,1) 0.2s both;
+      position: relative; z-index: 1;
+    }
+    .i-logo img { width: 100%; height: auto; display: block; filter: brightness(0) invert(1); }
+
+    .i-brand-name {
+      font-family: var(--fh); font-size: clamp(14px, 2.5vw, 18px); font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold);
+      animation: fadeUp 0.4s ease 0.72s both; position: relative; z-index: 1;
+    }
+
+    .i-rule { width: min(240px, 60vw); height: 1px; background: rgba(255,255,255,0.12); animation: fadeUp 0.4s ease 0.9s both; position: relative; z-index: 1; }
+
+    .i-label {
+      font-family: var(--fh); font-size: 12px; font-weight: 500;
+      color: rgba(255,255,255,0.5); letter-spacing: 0.13em; text-transform: uppercase;
+      animation: fadeUp 0.4s ease 1.05s both; position: relative; z-index: 1;
+    }
+
+    .i-heading {
+      font-family: var(--fdisp); font-size: clamp(22px, 5vw, 32px); font-weight: 400;
+      color: rgba(255,255,255,0.92); letter-spacing: 0.01em; line-height: 1.4;
+      animation: fadeUp 0.4s ease 1.2s both; position: relative; z-index: 1;
+    }
+    .i-heading em { font-style: italic; color: var(--gold); }
+
+    .i-bar { width: min(200px, 52vw); height: 2px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden; animation: fadeUp 0.4s ease 1.35s both; position: relative; z-index: 1; }
+    .i-fill { height: 100%; border-radius: 99px; background: var(--grad-gold); animation: barFill 1.8s ease 1.4s both; }
+    @keyframes barFill { from{width:0} to{width:100%} }
+
+    .i-by {
+      font-family: var(--fb); font-size: 13px; font-weight: 300;
+      color: rgba(255,255,255,0.42);
+      animation: fadeUp 0.4s ease 1.6s both; position: relative; z-index: 1;
+    }
+    .i-by strong { color: rgba(255,255,255,0.72); font-weight: 500; }
+
+    @keyframes popIn { from { opacity:0; transform:scale(0.6) translateY(8px); } to { opacity:1; transform:scale(1) translateY(0); } }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ══ NAV ══ */
+    .nav {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      display: flex; align-items: center;
+      min-height: 64px;
+      box-shadow: 0 1px 0 var(--border), 0 4px 20px rgba(10,22,40,0.06);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; margin-right: 28px; flex-shrink: 0; text-decoration: none; }
+    .nav-logo img { width: 118px; height: auto; display: block; }
+    .nav-sep { width: 1px; height: 20px; background: var(--border-m); margin-right: 6px; flex-shrink: 0; }
+    .nb {
+      padding: 22px 16px; font-family: var(--fh); font-size: 12.5px; font-weight: 600;
+      color: var(--ink-l); border: none; background: none; cursor: pointer;
+      position: relative; white-space: nowrap; transition: color 0.18s; letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .nb::after {
+      content: ''; position: absolute; bottom: 0; left: 10px; right: 10px; height: 2px;
+      background: var(--blue); border-radius: 2px 2px 0 0;
+      transform: scaleX(0); transition: transform 0.22s cubic-bezier(.34,1.56,.64,1);
+    }
+    .nb.active { color: var(--navy); font-weight: 700; }
+    .nb.active::after { transform: scaleX(1); }
+    .nb:hover:not(.active) { color: var(--navy); }
+    .nav-end {
+      margin-left: auto; display: flex; align-items: center; gap: 8px;
+      font-family: var(--fh); font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-l); flex-shrink: 0;
+    }
+    .nav-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+
+    /* ══ PAGES ══ */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ══ AUDIT HERO ══ */
+    .a-hero {
+      background: var(--grad-hero);
+      padding: 72px 56px 0;
+      position: relative; overflow: hidden; text-align: center;
+    }
+    .a-hero::before {
+      content: ''; position: absolute; left: 50%; top: -100px; transform: translateX(-50%);
+      width: 960px; height: 720px;
+      background: radial-gradient(ellipse, rgba(245,168,0,0.11) 0%, rgba(0,109,177,0.06) 48%, transparent 68%);
+      pointer-events: none;
+    }
+    .a-hero::after {
+      content: ''; position: absolute; right: -80px; bottom: 60px;
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, rgba(58,159,212,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .a-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-bottom: 22px; position: relative; z-index: 1;
+      font-family: var(--fh); font-size: 11px; font-weight: 600;
+      color: rgba(255,255,255,0.5); letter-spacing: 0.14em; text-transform: uppercase;
+    }
+    .a-eyebrow span { width: 18px; height: 1px; background: rgba(255,255,255,0.3); display: inline-block; }
+
+    .a-hero h1 {
+      font-family: var(--fdisp);
+      font-size: clamp(38px, 6vw, 72px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.06;
+      letter-spacing: -0.01em;
+      margin-bottom: 22px;
+      position: relative; z-index: 1;
+    }
+    .a-hero h1 .brand {
+      display: block;
+      font-style: italic;
+      background: var(--grad-gold);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .a-hero-sub {
+      font-family: var(--fb); font-size: 16.5px; font-weight: 300;
+      color: rgba(255,255,255,0.72); max-width: 520px; margin: 0 auto 56px;
+      line-height: 1.78; position: relative; z-index: 1;
+    }
+    .a-stats {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      background: rgba(0,0,0,0.28);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin: 0 -56px; position: relative; z-index: 1;
+    }
+    .a-stat { padding: 28px 20px; border-right: 1px solid rgba(255,255,255,0.05); text-align: center; }
+    .a-stat:last-child { border-right: none; }
+    .a-stat .n { font-family: var(--fdisp); font-size: 36px; font-weight: 700; color: #fff; line-height: 1; }
+    .a-stat .n em { font-style: normal; background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .a-stat .l { font-family: var(--fh); font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.52); margin-top: 7px; text-transform: uppercase; letter-spacing: 0.1em; }
+
+    /* ══ AUDIT BODY ══ */
+    .a-body { max-width: 1080px; margin: 0 auto; padding: 64px 36px 96px; }
+
+    /* Section header */
+    .sh { display: flex; align-items: center; gap: 14px; margin-bottom: 32px; }
+    .sh-num {
+      font-family: var(--fh); font-size: 12px; font-weight: 700;
+      color: var(--ink-l); letter-spacing: 0.12em;
+      flex-shrink: 0; text-transform: uppercase;
+    }
+    .sh-text h2 {
+      font-family: var(--fdisp); font-size: 30px; font-weight: 700;
+      color: var(--navy); letter-spacing: -0.01em; line-height: 1.1;
+    }
+    .sh-text p { font-family: var(--fb); font-size: 14px; font-weight: 400; color: var(--ink-l); margin-top: 3px; }
+    .sh-rule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border-m), transparent); }
+
+    /* Score banner */
+    .score-banner {
+      background: var(--grad-hero);
+      border-radius: var(--r-xl); padding: 40px 44px;
+      display: flex; align-items: center; gap: 36px; margin-bottom: 60px; flex-wrap: wrap;
+      position: relative; overflow: hidden;
+      box-shadow: 0 12px 48px rgba(10,22,40,0.24);
+    }
+    .score-banner::before {
+      content: ''; position: absolute; right: -40px; top: -40px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(245,168,0,0.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .score-banner::after {
+      content: ''; position: absolute; left: -60px; bottom: -60px;
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, rgba(0,109,177,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .score-main { text-align: center; flex-shrink: 0; position: relative; z-index: 1; }
+    .score-num {
+      font-family: var(--fdisp); font-size: 80px; font-weight: 800; line-height: 0.9;
+      background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .score-denom { font-family: var(--fb); font-size: 20px; font-weight: 300; color: rgba(255,255,255,0.35); }
+    .score-label {
+      font-family: var(--fh); font-size: 11px; font-weight: 600;
+      color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.13em; margin-top: 10px;
+    }
+    .score-sep { width: 1px; height: 80px; background: rgba(255,255,255,0.1); flex-shrink: 0; }
+    .score-body { flex: 1; min-width: 260px; position: relative; z-index: 1; }
+    .score-body-label {
+      font-family: var(--fh); font-size: 11px; font-weight: 600;
+      color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.13em; margin-bottom: 16px;
+    }
+    .score-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .sg { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: var(--r-md); padding: 14px 16px; transition: background 0.2s; }
+    .sg:hover { background: rgba(255,255,255,0.08); }
+    .sg .sn { font-family: var(--fdisp); font-size: 24px; font-weight: 700; line-height: 1; }
+    .sg .sl { font-family: var(--fb); font-size: 12px; font-weight: 400; color: rgba(255,255,255,0.65); margin-top: 5px; }
+    .sg.r .sn { color: #FF7063; }
+    .sg.a .sn { color: var(--gold); }
+    .sg.g .sn { color: #52E07C; }
+
+    /* Diagnosis */
+    .diag {
+      background: #FFFDF5;
+      border: 1px solid rgba(245,168,0,0.3);
+      border-left: 4px solid var(--gold);
+      border-radius: var(--r-lg); padding: 32px 36px;
+      display: flex; gap: 22px; margin-bottom: 60px;
+      box-shadow: 0 4px 24px rgba(245,168,0,0.07);
+    }
+    .diag-ico { font-size: 26px; flex-shrink: 0; margin-top: 2px; }
+    .diag-label {
+      font-family: var(--fh); font-size: 11px; font-weight: 700;
+      color: var(--gold-d); text-transform: uppercase; letter-spacing: 0.13em; margin-bottom: 12px;
+    }
+    .diag p {
+      font-family: var(--fb); font-size: 15.5px; font-weight: 400;
+      color: var(--ink); line-height: 1.8;
+    }
+    .diag-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+    .dtag {
+      font-family: var(--fh); font-size: 11px; font-weight: 600;
+      padding: 5px 13px; border-radius: var(--r-sm); letter-spacing: 0.03em;
+    }
+    .dtag.r { background: #FDF0EF; color: var(--red); border: 1px solid rgba(200,40,30,0.15); }
+    .dtag.a { background: var(--gold-l); color: var(--gold-d); border: 1px solid rgba(245,168,0,0.2); }
+    .dtag.g { background: #EBF8F1; color: var(--green); border: 1px solid rgba(11,114,53,0.18); }
+
+    /* Issue grid */
+    .ig { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 60px; }
+    .ic {
+      background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px;
+      box-shadow: 0 2px 0 var(--border), 0 6px 24px rgba(10,22,40,0.04);
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .ic:hover { box-shadow: 0 2px 0 var(--border-m), 0 14px 44px rgba(10,22,40,0.09); transform: translateY(-2px); }
+    .ic.full { grid-column: 1 / -1; }
+
+    .ic-tag {
+      font-family: var(--fh); font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      padding: 4px 12px; border-radius: 6px; display: inline-block; margin-bottom: 16px;
+    }
+    .ic-tag.r { background: #FDF0EF; color: var(--red); }
+    .ic-tag.a { background: var(--gold-l); color: var(--gold-d); }
+
+    .ic h4 {
+      font-family: var(--fdisp); font-size: 22px; font-weight: 700;
+      color: var(--navy); line-height: 1.2; margin-bottom: 12px; letter-spacing: -0.01em;
+    }
+    .ic p { font-family: var(--fb); font-size: 14.5px; font-weight: 400; color: var(--ink-m); line-height: 1.8; }
+
+    .fix { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--bg2); display: flex; gap: 10px; align-items: flex-start; }
+    .fix-tag {
+      font-family: var(--fh); font-size: 10.5px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em; color: var(--green);
+      background: #EBF8F1; border: 1px solid rgba(11,114,53,0.18);
+      padding: 4px 11px; border-radius: 7px; flex-shrink: 0; margin-top: 3px; white-space: nowrap;
+    }
+    .fix p { font-family: var(--fb); font-size: 14px; color: var(--ink-m); line-height: 1.75; }
+
+    /* Caption framework box */
+    .cap-box {
+      background: var(--blue-l); border: 1px solid rgba(0,109,177,0.18);
+      border-radius: var(--r-md); padding: 22px 26px; margin-top: 22px;
+    }
+    .cap-label {
+      font-family: var(--fh); font-size: 11px; font-weight: 700;
+      color: var(--blue-d); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 16px;
+    }
+    .cap-row { display: flex; gap: 13px; align-items: flex-start; margin-bottom: 10px; }
+    .cap-row:last-child { margin-bottom: 0; }
+    .cap-num {
+      width: 26px; height: 26px; border-radius: 7px;
+      background: var(--blue); color: #fff;
+      font-family: var(--fh); font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    .cap-text { font-family: var(--fb); font-size: 14px; color: var(--ink-m); line-height: 1.65; }
+    .cap-text strong { color: var(--blue-d); font-weight: 600; }
+
+    /* Mix bars */
+    .mix { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .mix-col-label {
+      font-family: var(--fh); font-size: 11px; font-weight: 700;
+      color: var(--ink-l); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 20px;
+    }
+    .mi { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .mi-lbl { font-family: var(--fb); font-size: 14px; font-weight: 400; color: var(--ink); flex: 1; min-width: 0; }
+    .mi-bar { width: 100px; height: 6px; background: var(--bg2); border-radius: 99px; overflow: hidden; flex-shrink: 0; }
+    .mi-fill { height: 100%; border-radius: 99px; }
+    .mi-pct { font-family: var(--fh); font-size: 12px; font-weight: 600; color: var(--ink-l); width: 48px; text-align: right; flex-shrink: 0; }
+
+    /* xto value prop */
+    .xto-value {
+      background: var(--grad-hero);
+      border-radius: var(--r-xl); padding: 48px 52px; margin: 0 0 60px;
+      display: flex; align-items: flex-start; gap: 44px; flex-wrap: wrap;
+      position: relative; overflow: hidden;
+      box-shadow: 0 16px 60px rgba(10,22,40,0.26);
+    }
+    .xto-value::before {
+      content: ''; position: absolute; left: -60px; bottom: -60px;
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(58,159,212,0.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .xto-value::after {
+      content: ''; position: absolute; right: -30px; top: -30px;
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, rgba(245,168,0,0.09) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .xto-value-left { flex: 1; min-width: 260px; position: relative; z-index: 1; }
+    .xto-eyebrow {
+      font-family: var(--fh); font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.16em;
+      background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 18px; display: block;
+    }
+    .xto-value h3 {
+      font-family: var(--fdisp); font-size: clamp(22px, 3vw, 32px);
+      font-weight: 700; color: #fff; line-height: 1.25;
+      margin-bottom: 16px; letter-spacing: -0.01em;
+    }
+    .xto-value h3 em { font-style: italic; }
+    .xto-value p { font-family: var(--fb); font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.8); line-height: 1.85; }
+    .xto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex-shrink: 0; min-width: 280px; position: relative; z-index: 1; }
+    .xto-card {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09);
+      border-radius: var(--r-md); padding: 20px 22px;
+      transition: background 0.2s;
+    }
+    .xto-card:hover { background: rgba(255,255,255,0.09); }
+    .xto-card .xc-title {
+      font-family: var(--fh); font-size: 14px; font-weight: 700;
+      background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 7px; display: block; letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .xto-card .xc-sub { font-family: var(--fb); font-size: 13.5px; font-weight: 300; color: rgba(255,255,255,0.78); line-height: 1.65; }
+
+    /* Win cards */
+    .wg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 60px; }
+    .wc {
+      background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px 26px 24px;
+      position: relative; overflow: hidden;
+      box-shadow: 0 2px 0 var(--border), 0 6px 24px rgba(10,22,40,0.04);
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .wc:hover { box-shadow: 0 2px 0 var(--border-m), 0 16px 48px rgba(10,22,40,0.09); transform: translateY(-3px); }
+    .wc::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--grad-gold); }
+    .wc-stat { font-family: var(--fdisp); font-size: 42px; font-weight: 800; color: var(--green); line-height: 1; margin-bottom: 14px; }
+    .wc-stat-lbl { font-family: var(--fh); font-size: 11px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.7; margin-left: 4px; }
+    .wc h4 { font-family: var(--fdisp); font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 10px; letter-spacing: -0.01em; }
+    .wc p { font-family: var(--fb); font-size: 14px; color: var(--ink-m); line-height: 1.8; }
+    .wc .tip { margin-top: 16px; padding-top: 16px; border-top: 1px solid #CCF0DE; font-family: var(--fb); font-size: 13.5px; color: var(--green); font-weight: 400; line-height: 1.65; }
+
+    /* Action plan */
+    .pg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .pc { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; box-shadow: 0 4px 20px rgba(10,22,40,0.06); }
+    .pc-hd { padding: 22px 26px; color: #fff; }
+    .pc-hd-label {
+      font-family: var(--fh); font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.13em; opacity: 0.65; margin-bottom: 7px;
+    }
+    .pc-hd h3 { font-family: var(--fdisp); font-size: 21px; font-weight: 700; line-height: 1.2; }
+    .pc-hd.p1 { background: linear-gradient(135deg, var(--navy), var(--navy-l)); }
+    .pc-hd.p2 { background: linear-gradient(135deg, #0B5E20, #138F35); }
+    .pc-hd.p3 { background: linear-gradient(135deg, #00457A, var(--blue)); }
+    .pc-body { padding: 24px 26px; }
+    .pi { display: flex; gap: 13px; align-items: flex-start; margin-bottom: 16px; }
+    .pi:last-child { margin-bottom: 0; }
+    .pid { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 10px; }
+    .pi p { font-family: var(--fb); font-size: 14px; font-weight: 400; color: var(--ink-m); line-height: 1.75; }
+
+    /* ══ COMPARE HERO ══ */
+    .c-hero {
+      background: var(--grad-hero);
+      padding: 72px 56px 56px; text-align: center; position: relative; overflow: hidden;
+    }
+    .c-hero::before {
+      content: ''; position: absolute; left: 50%; top: -80px; transform: translateX(-50%);
+      width: 860px; height: 680px;
+      background: radial-gradient(ellipse, rgba(245,168,0,0.1) 0%, rgba(0,109,177,0.06) 45%, transparent 68%);
+      pointer-events: none;
+    }
+    .c-eyebrow-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 100px; padding: 8px 22px; margin-bottom: 22px;
+      font-family: var(--fh); font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.65);
+    }
+    .c-hero-lockup {
+      display: flex; align-items: center; justify-content: center;
+      gap: 24px; margin-bottom: 18px; flex-wrap: wrap;
+    }
+    .c-hero-logo {
+      height: clamp(36px, 5vw, 56px); width: auto;
+      filter: brightness(0) invert(1);
+      display: block;
+    }
+    .c-hero-x {
+      font-family: var(--fdisp); font-size: clamp(32px, 5.5vw, 60px);
+      font-weight: 400; color: rgba(255,255,255,0.5); line-height: 1;
+    }
+    .c-hero-partner {
+      font-family: var(--fdisp); font-size: clamp(32px, 5.5vw, 60px);
+      font-weight: 700; color: #fff; line-height: 1; letter-spacing: -0.02em;
+    }
+    .c-hero > p { font-family: var(--fb); font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.7); max-width: 520px; margin: 0 auto; line-height: 1.8; }
+    .c-pills { display: flex; justify-content: center; gap: 8px; margin-top: 28px; flex-wrap: wrap; }
+    .cp {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16);
+      color: rgba(255,255,255,0.75); padding: 6px 18px; border-radius: 100px;
+      font-family: var(--fh); font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .cp.gold { background: rgba(245,168,0,0.14); border-color: rgba(245,168,0,0.35); color: var(--gold); }
+
+    /* Inner tabs */
+    .itabs {
+      background: rgba(255,255,255,0.97); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: center; overflow-x: auto;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      box-shadow: 0 2px 12px rgba(10,22,40,0.06);
+    }
+    .itabs::-webkit-scrollbar { display: none; }
+    .itb {
+      padding: 20px 26px; font-family: var(--fh); font-size: 12.5px; font-weight: 600;
+      color: var(--ink-l); border: none; background: none; cursor: pointer;
+      position: relative; white-space: nowrap; transition: color 0.18s; flex-shrink: 0;
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .itb::after {
+      content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px;
+      background: var(--blue); transform: scaleX(0);
+      transition: transform 0.28s cubic-bezier(.34,1.56,.64,1); border-radius: 2px 2px 0 0;
+    }
+    .itb.active { color: var(--navy); font-weight: 700; }
+    .itb.active::after { transform: scaleX(1); }
+    .itb:hover:not(.active) { color: var(--blue); }
+
+    /* Panes */
+    .pane { display: none; padding: 60px 36px 96px; max-width: 1120px; margin: 0 auto; }
+    .pane.active { display: block; }
+    .p-intro { text-align: center; margin-bottom: 48px; }
+    .p-intro h2 {
+      font-family: var(--fdisp); font-size: 34px; font-weight: 700;
+      color: var(--navy); margin-bottom: 12px; letter-spacing: -0.02em;
+    }
+    .p-intro p { font-family: var(--fb); font-size: 15.5px; font-weight: 300; color: var(--ink-m); max-width: 540px; margin: 0 auto; line-height: 1.8; }
+
+    /* Compare card */
+    .cc { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-xl); overflow: hidden; box-shadow: 0 8px 48px rgba(10,22,40,0.09); margin-bottom: 40px; }
+    .cc-hd { background: var(--grad-hero); padding: 24px 32px; display: flex; align-items: center; gap: 18px; position: relative; overflow: hidden; }
+    .cc-hd::after { content: ''; position: absolute; right: -20px; top: -20px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(245,168,0,0.08) 0%, transparent 65%); pointer-events: none; }
+    .cc-num {
+      width: 42px; height: 42px; background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--fdisp); font-size: 20px; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+    .cc-hd-text h3 { font-family: var(--fdisp); font-size: 20px; font-weight: 700; color: #fff; line-height: 1.25; }
+    .cc-hd-text p { font-family: var(--fb); font-size: 13.5px; font-weight: 300; color: rgba(255,255,255,0.65); margin-top: 5px; }
+
+    .cc-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .cc-col { padding: 32px; }
+    .cc-col.cc-orig { background: #F4F8FD; border-right: 1px solid var(--border); }
+    .cc-col.cc-ours { background: var(--surface); }
+
+    .col-label {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 6px 16px; border-radius: 100px;
+      font-family: var(--fh); font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 20px;
+    }
+    .col-label.orig { background: #E8EFF8; border: 1px solid #C5D5E8; color: #3A5878; }
+    .col-label.ours { background: var(--gold-l); border: 1px solid rgba(245,168,0,0.4); color: var(--gold-d); }
+    .col-label .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .col-label.orig .dot { background: #8AACCB; }
+    .col-label.ours .dot { background: var(--gold); }
+
+    .badge-row { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+    .our-star {
+      background: var(--grad-gold); color: var(--navy);
+      font-family: var(--fh); font-size: 10px; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      padding: 4px 13px; border-radius: 100px;
+      box-shadow: 0 2px 10px rgba(245,168,0,0.3);
+    }
+
+    .img-orig {
+      width: 100%; border-radius: var(--r-md); display: block;
+      border: 1px solid var(--border);
+      filter: saturate(0.9) brightness(0.97);
+    }
+    .img-ours {
+      width: 100%; border-radius: var(--r-md); display: block;
+      border: 2px solid var(--blue);
+      box-shadow: 0 0 0 5px rgba(0,109,177,0.1), 0 16px 52px rgba(10,22,40,0.14);
+      transition: transform 0.32s cubic-bezier(.34,1.1,.64,1), box-shadow 0.32s;
+    }
+    .img-ours:hover { transform: translateY(-6px) scale(1.012); box-shadow: 0 0 0 8px rgba(0,109,177,0.16), 0 28px 64px rgba(10,22,40,0.2); }
+
+    .diff-bar { background: linear-gradient(180deg, #F8FAFE, #F2F7F2); border-top: 1px solid var(--border); padding: 32px 36px; }
+    .diff-bar-label {
+      font-family: var(--fh); font-size: 11px; font-weight: 700;
+      color: var(--ink-l); text-transform: uppercase; letter-spacing: 0.13em; margin-bottom: 24px;
+    }
+    .dg { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .di { display: flex; gap: 14px; align-items: flex-start; }
+    .di-ico {
+      width: 32px; height: 32px; background: var(--grad-gold);
+      border-radius: var(--r-sm); display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 2px;
+      box-shadow: 0 3px 10px rgba(245,168,0,0.28);
+    }
+    .di-ico svg { width: 15px; height: 15px; fill: var(--navy); }
+    .di strong { font-family: var(--fh); font-size: 13.5px; font-weight: 700; color: var(--navy); display: block; margin-bottom: 6px; letter-spacing: 0.01em; }
+    .di span { font-family: var(--fb); font-size: 13.5px; font-weight: 400; color: var(--ink-m); line-height: 1.75; }
+
+    /* Overview table */
+    .ov-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px; }
+    .os {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg);
+      padding: 28px; text-align: center; position: relative; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(10,22,40,0.06);
+    }
+    .os::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--grad-gold); }
+    .os .n { font-family: var(--fdisp); font-size: 44px; font-weight: 800; color: var(--navy); line-height: 1; }
+    .os .n em { font-style: normal; background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .os .l { font-family: var(--fb); font-size: 13px; font-weight: 400; color: var(--ink-l); margin-top: 8px; }
+    .ov-tbl-wrap { overflow-x: auto; border-radius: var(--r-lg); border: 1px solid var(--border); box-shadow: 0 4px 20px rgba(10,22,40,0.06); }
+    .ov-tbl { width: 100%; border-collapse: collapse; background: var(--surface); min-width: 500px; }
+    .ov-tbl thead tr { background: var(--grad-hero); }
+    .ov-tbl th {
+      padding: 16px 22px; font-family: var(--fh); font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; text-align: left;
+      white-space: nowrap; color: rgba(255,255,255,0.8);
+    }
+    .ov-tbl td { padding: 15px 22px; font-family: var(--fb); font-size: 14px; font-weight: 400; border-bottom: 1px solid var(--border); color: var(--ink-m); }
+    .ov-tbl td:first-child { font-weight: 500; color: var(--navy); font-family: var(--fh); }
+    .ov-tbl tr:last-child td { border-bottom: none; }
+    .ov-tbl tbody tr:nth-child(even) { background: #F8FAFE; }
+    .tb { background: #FDF0EF; color: var(--red); padding: 4px 11px; border-radius: 7px; font-family: var(--fh); font-size: 11px; font-weight: 600; }
+    .tg { background: #EBF8F1; color: var(--green); padding: 4px 11px; border-radius: 7px; font-family: var(--fh); font-size: 11px; font-weight: 600; }
+
+    /* Carousel grid */
+    .carousel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-bottom: 40px; }
+    .carousel-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg);
+      overflow: hidden; box-shadow: 0 4px 24px rgba(10,22,40,0.07);
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .carousel-card:hover { box-shadow: 0 14px 44px rgba(10,22,40,0.12); transform: translateY(-3px); }
+    .carousel-card-img { width: 100%; display: block; border-bottom: 2px solid var(--blue); }
+    .carousel-card-body { padding: 22px 24px; }
+    .carousel-slide-num {
+      font-family: var(--fh); font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: var(--blue);
+      margin-bottom: 9px; display: block;
+    }
+    .carousel-card-body h4 { font-family: var(--fdisp); font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 9px; line-height: 1.3; }
+    .carousel-card-body p { font-family: var(--fb); font-size: 14px; font-weight: 400; color: var(--ink-m); line-height: 1.75; }
+
+    /* Footer */
+    footer {
+      background: var(--grad-hero);
+      text-align: center; padding: 40px 24px;
+      color: rgba(255,255,255,0.4); font-family: var(--fh); font-size: 12px; font-weight: 500;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      position: relative; overflow: hidden;
+    }
+    footer::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    }
+    footer strong { font-weight: 700; color: rgba(255,255,255,0.75); }
+    footer .brand-footer { color: var(--gold); font-weight: 700; }
+
+    /* ══ RESPONSIVE ══ */
+    @media (hover: none) {
+      .ic:hover, .wc:hover, .carousel-card:hover { box-shadow: none; transform: none; }
+      .img-ours:hover { transform: none; box-shadow: 0 0 0 5px rgba(0,109,177,0.1), 0 16px 52px rgba(10,22,40,0.14); }
+    }
+    .nb-short { display: none; }
+    .nb-full  { display: inline; }
+
+    @media (max-width: 1100px) {
+      .wg  { grid-template-columns: 1fr 1fr; }
+      .pg  { grid-template-columns: 1fr 1fr; }
+      .a-body { padding: 52px 28px 80px; }
+      .pane   { padding: 52px 28px 80px; }
+    }
+    @media (max-width: 860px) {
+      .nav { padding: 0 20px; min-height: 58px; }
+      .nav-end { display: none; }
+      .nb { padding: 18px 14px; font-size: 11.5px; }
+      .a-hero  { padding: 48px 24px 0; }
+      .a-stats { grid-template-columns: 1fr 1fr; margin: 0 -24px; }
+      .a-body  { padding: 40px 20px 64px; }
+      .score-banner { flex-direction: column; align-items: flex-start; gap: 24px; padding: 30px 28px; }
+      .score-sep { display: none; }
+      .score-main { display: flex; align-items: baseline; gap: 16px; }
+      .score-grid { grid-template-columns: repeat(3, 1fr); }
+      .ig  { grid-template-columns: 1fr; }
+      .ic.full { grid-column: auto; }
+      .mix { grid-template-columns: 1fr; gap: 28px; }
+      .xto-value { flex-direction: column; padding: 32px 28px; gap: 28px; }
+      .xto-grid { min-width: unset; width: 100%; }
+      .wg  { grid-template-columns: 1fr 1fr; }
+      .pg  { grid-template-columns: 1fr 1fr; }
+      .c-hero { padding: 48px 24px 40px; }
+      .itb { padding: 18px 18px; font-size: 11.5px; }
+      .pane { padding: 40px 20px 64px; }
+      .cc-grid { grid-template-columns: 1fr; }
+      .cc-col.cc-orig { border-right: none; border-bottom: 1px solid var(--border); }
+      .diff-bar { padding: 28px 24px; }
+      .dg { grid-template-columns: 1fr 1fr; }
+      .ov-stats { grid-template-columns: 1fr 1fr; }
+      .diag { flex-direction: column; gap: 12px; }
+      .carousel-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .nav { padding: 0 14px; min-height: 56px; }
+      .nav-logo img { width: 90px; }
+      .nb { padding: 0 10px; font-size: 11px; min-height: 56px; display: flex; align-items: center; }
+      .nb::after { bottom: 0; }
+      .a-hero { padding: 36px 16px 0; }
+      .a-stats { margin: 0 -16px; grid-template-columns: 1fr 1fr; }
+      .a-stat { padding: 20px 12px; }
+      .a-stat .n { font-size: 28px; }
+      .a-body { padding: 32px 16px 56px; }
+      .a-hero h1 { font-size: clamp(32px, 9.5vw, 48px); }
+      .a-hero-sub { font-size: 15px; margin-bottom: 40px; }
+      .score-banner { padding: 24px 20px; border-radius: var(--r-lg); }
+      .score-num { font-size: 60px; }
+      .score-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .sg { padding: 12px 12px; }
+      .sg .sn { font-size: 20px; }
+      .sg .sl { font-size: 11px; }
+      .diag { padding: 22px 18px; border-radius: var(--r-md); }
+      .diag p { font-size: 14.5px; }
+      .ic { padding: 22px; border-radius: var(--r-md); }
+      .ic h4 { font-size: 20px; }
+      .ic p { font-size: 14px; }
+      .xto-value { padding: 26px 20px; border-radius: var(--r-lg); }
+      .xto-grid { grid-template-columns: 1fr 1fr; }
+      .wg { grid-template-columns: 1fr; }
+      .pg { grid-template-columns: 1fr; }
+      .c-hero { padding: 36px 16px 32px; }
+      .c-hero h1 { font-size: clamp(28px, 8vw, 44px); }
+      .itabs { justify-content: flex-start; padding-right: 16px; }
+      .itb { padding: 0 14px; font-size: 11px; min-height: 52px; display: flex; align-items: center; flex-shrink: 0; }
+      .itb::after { bottom: 0; }
+      .pane { padding: 28px 16px 56px; }
+      .p-intro h2 { font-size: 28px; }
+      .cc { border-radius: var(--r-lg); }
+      .cc-hd { padding: 20px 20px; }
+      .cc-col { padding: 20px 18px; }
+      .diff-bar { padding: 22px 18px; }
+      .dg { grid-template-columns: 1fr; gap: 18px; }
+      .ov-stats { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .os { padding: 22px 14px; }
+      .os .n { font-size: 36px; }
+      .sh-text h2 { font-size: 26px; }
+      .carousel-card-body h4 { font-size: 18px; }
+      .wc p, .pi p, .fix p, .cap-text, .di span { font-size: 14px; }
+    }
+    @media (max-width: 400px) {
+      .nav-logo img { width: 76px; }
+      .nav-sep { display: none; }
+      .nb-full { display: none; }
+      .nb-short { display: inline; }
+      .nb { padding: 0 9px; font-size: 11px; }
+      .itb { padding: 0 11px; font-size: 11px; }
+      .a-stat .n { font-size: 24px; }
+      .score-num { font-size: 50px; }
+      .wg { grid-template-columns: 1fr; }
+      .xto-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="intro" onclick="this.classList.add('out')">
+  <div class="i-logo"><img src="solarmaxx-logo.svg" alt="SolarMaxx" /></div>
+  <div class="i-brand-name">SolarMaxx</div>
+  <div class="i-rule"></div>
+  <div class="i-label">LinkedIn Audit &amp; Design Comparison</div>
+  <div class="i-heading">A review of what's working,<br>what isn't, and <em>what comes next.</em></div>
+  <div class="i-bar"><div class="i-fill"></div></div>
+  <div class="i-by">Prepared by <strong>xto100x</strong> &nbsp;·&nbsp; May 2026</div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-logo" href="#"><img src="solarmaxx-logo.svg" alt="SolarMaxx" /></a>
+  <div class="nav-sep"></div>
+  <button class="nb active" onclick="showPage('audit',this)"><span class="nb-full">LinkedIn Audit</span><span class="nb-short">Audit</span></button>
+  <button class="nb" onclick="showPage('compare',this)"><span class="nb-full">Design Comparison</span><span class="nb-short">Designs</span></button>
+  <div class="nav-end"><span class="nav-dot"></span>xto100x &nbsp;·&nbsp; May 2026</div>
+</nav>
+
+<!-- ══ AUDIT PAGE ══ -->
+<div id="page-audit" class="page active">
+
+  <div class="a-hero">
+    <div class="a-eyebrow"><span></span>May 2026 &nbsp;·&nbsp; Prepared by xto100x<span></span></div>
+    <h1>LinkedIn Audit<br><span class="brand">SolarMaxx</span></h1>
+    <p class="a-hero-sub">12,000 followers. Consistent posts. And almost zero business impact. Here's why — and exactly how that changes.</p>
+    <div class="a-stats">
+      <div class="a-stat"><div class="n">12,074</div><div class="l">Followers</div></div>
+      <div class="a-stat"><div class="n">2.1<em>/10</em></div><div class="l">Overall Score</div></div>
+      <div class="a-stat"><div class="n">90<em>%</em></div><div class="l">Festival / Occasion Posts</div></div>
+      <div class="a-stat"><div class="n">6–8</div><div class="l">Avg Likes per Post</div></div>
+    </div>
+  </div>
+
+  <div class="a-body">
+
+    <!-- SCORECARD -->
+    <div class="score-banner">
+      <div class="score-main">
+        <div class="score-num">2.1<span class="score-denom">/10</span></div>
+        <div class="score-label">Overall Score</div>
+      </div>
+      <div class="score-sep"></div>
+      <div class="score-body">
+        <div class="score-body-label">Score by area</div>
+        <div class="score-grid">
+          <div class="sg r"><div class="sn">2/10</div><div class="sl">Caption Quality</div></div>
+          <div class="sg r"><div class="sn">3/10</div><div class="sl">Visual Identity</div></div>
+          <div class="sg r"><div class="sn">1.5/10</div><div class="sl">Content Mix</div></div>
+          <div class="sg r"><div class="sn">2/10</div><div class="sl">Engagement CTA</div></div>
+          <div class="sg r"><div class="sn">1/10</div><div class="sl">Video Strategy</div></div>
+          <div class="sg a"><div class="sn">3.5/10</div><div class="sl">Page Setup</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIAGNOSIS -->
+    <div class="diag">
+      <div class="diag-ico">&#9888;&#65039;</div>
+      <div>
+        <div class="diag-label">Diagnosis</div>
+        <p>SolarMaxx posts regularly and has 12K people following. That's the good news. The bad news is that 90% of the content is generic festival celebrations with no link to solar energy, no story, and nothing worth sharing. The audience is there. They're just not being given a reason to engage.</p>
+        <div class="diag-tags">
+          <span class="dtag r">No hooks in any caption</span>
+          <span class="dtag r">90% festival posts</span>
+          <span class="dtag r">6–8 likes vs 30–80 benchmark</span>
+          <span class="dtag r">Zero video content</span>
+          <span class="dtag r">No CTAs anywhere</span>
+          <span class="dtag a">Generic illustrated graphics</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHAT'S WRONG -->
+    <div class="sh">
+      <div class="sh-num">01</div>
+      <div class="sh-text"><h2>What's Not Working</h2><p>Six issues behind the 2.1 score</p></div>
+      <div class="sh-rule"></div>
+    </div>
+    <div class="ig">
+
+      <div class="ic">
+        <div class="ic-tag r">Critical</div>
+        <h4>Festival Content Is Dominating the Feed</h4>
+        <p>Women's Day got 8 likes. Holi got 6. Republic Day got 6. Each caption is one flat line with no connection to solar energy. The page reads like a national holiday calendar, not a solar company's voice.</p>
+        <div class="fix"><span class="fix-tag">Fix</span><p>Cap celebrations at 10% of posts. Every festival mention needs to connect back to the solar mission — something only SolarMaxx could say.</p></div>
+      </div>
+
+      <div class="ic">
+        <div class="ic-tag r">Critical</div>
+        <h4>Captions Have No Structure or Purpose</h4>
+        <p>Every caption is one line. No story, no question, no reason to click "see more" or leave a comment. Readers have nothing to react to, so they don't.</p>
+        <div class="cap-box">
+          <div class="cap-label">Every caption needs this structure</div>
+          <div class="cap-row"><div class="cap-num">1</div><div class="cap-text"><strong>Hook:</strong> one line that earns the click to "see more"</div></div>
+          <div class="cap-row"><div class="cap-num">2</div><div class="cap-text"><strong>Context:</strong> what's happening and why it matters</div></div>
+          <div class="cap-row"><div class="cap-num">3</div><div class="cap-text"><strong>Insight:</strong> what the reader takes away from this</div></div>
+          <div class="cap-row"><div class="cap-num">4</div><div class="cap-text"><strong>CTA:</strong> one clear ask — comment, DM, share, follow</div></div>
+        </div>
+      </div>
+
+      <div class="ic">
+        <div class="ic-tag a">High Priority</div>
+        <h4>No Consistent Visual Brand</h4>
+        <p>Illustrated stock graphics, inconsistent colors, a logo that's small and easy to miss. A viewer scrolling past cannot identify a SolarMaxx post in under a second — which means they won't stop for it.</p>
+        <div class="fix"><span class="fix-tag">Fix</span><p>Lock in a design system: SolarMaxx blue and gold, one font pair, logo top-right on every post. Five templates, used consistently, build recognition fast.</p></div>
+      </div>
+
+      <div class="ic">
+        <div class="ic-tag r">Critical</div>
+        <h4>Not a Single Video on the Timeline</h4>
+        <p>Video is LinkedIn's best-performing format by a wide margin — five times the engagement of static posts. SolarMaxx has zero. This is the largest single missed opportunity on the page right now.</p>
+        <div class="fix"><span class="fix-tag">Fix</span><p>Start with one CEO video per week. 60 seconds. A direct take on something happening in Indian solar. xto100x handles the script and production brief.</p></div>
+      </div>
+
+      <div class="ic">
+        <div class="ic-tag a">High Priority</div>
+        <h4>Followers Don't Know What SolarMaxx Does</h4>
+        <p>No posts on solar policy, PM-KUSUM, net metering, DISCOM ratings, installation guides, or project results. After scrolling the feed, a potential customer has no idea what SolarMaxx offers or why they should trust them.</p>
+        <div class="fix"><span class="fix-tag">Fix</span><p>Forty percent of posts should be education or industry commentary. Own the solar conversation in your geography — don't leave that to competitors.</p></div>
+      </div>
+
+      <div class="ic">
+        <div class="ic-tag r">Critical</div>
+        <h4>Engagement Is Far Below the Benchmark</h4>
+        <p>Accounts with 10K to 15K followers typically see 30 to 80 likes per post with decent content. SolarMaxx is averaging 6 to 8. The gap isn't the audience size — it's the content. Generic posts with no CTAs give people no reason to interact.</p>
+        <div class="fix"><span class="fix-tag">Fix</span><p>Every post needs a hook at the start and a clear CTA at the end. Content that's genuinely useful or interesting earns engagement — celebration graphics don't.</p></div>
+      </div>
+
+      <!-- Content Mix -->
+      <div class="ic full">
+        <div class="ic-tag a">High Priority</div>
+        <h4>The Content Mix Is Broken</h4>
+        <div class="mix">
+          <div class="mix-col">
+            <div class="mix-col-label">Current Mix</div>
+            <div class="mi"><span class="mi-lbl">Festival / Occasion</span><div class="mi-bar"><div class="mi-fill" style="width:100%;background:#C8281E"></div></div><span class="mi-pct">90%</span></div>
+            <div class="mi"><span class="mi-lbl">Industry / Business</span><div class="mi-bar"><div class="mi-fill" style="width:6%;background:#C98800"></div></div><span class="mi-pct">5%</span></div>
+            <div class="mi"><span class="mi-lbl">Educational</span><div class="mi-bar"><div class="mi-fill" style="width:4%;background:var(--blue)"></div></div><span class="mi-pct">3%</span></div>
+            <div class="mi"><span class="mi-lbl">Company / Culture</span><div class="mi-bar"><div class="mi-fill" style="width:2%;background:var(--green)"></div></div><span class="mi-pct">2%</span></div>
+          </div>
+          <div class="mix-col">
+            <div class="mix-col-label">Recommended Weekly Mix</div>
+            <div class="mi"><span class="mi-lbl">Educational / Thought Leadership</span><div class="mi-bar"><div class="mi-fill" style="width:100%;background:var(--green)"></div></div><span class="mi-pct">2x / wk</span></div>
+            <div class="mi"><span class="mi-lbl">CEO / Industry Takes</span><div class="mi-bar"><div class="mi-fill" style="width:100%;background:var(--navy)"></div></div><span class="mi-pct">1x / wk</span></div>
+            <div class="mi"><span class="mi-lbl">Project Showcases</span><div class="mi-bar"><div class="mi-fill" style="width:66%;background:var(--blue)"></div></div><span class="mi-pct">1x / wk</span></div>
+            <div class="mi"><span class="mi-lbl">Company / Culture</span><div class="mi-bar"><div class="mi-fill" style="width:66%;background:var(--blue-d)"></div></div><span class="mi-pct">1x / wk</span></div>
+            <div class="mi"><span class="mi-lbl">Festival (solar-tied only)</span><div class="mi-bar"><div class="mi-fill" style="width:8%;background:#C98800"></div></div><span class="mi-pct">max 1/mo</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /ig -->
+
+    <!-- XTO VALUE PROP -->
+    <div class="xto-value">
+      <div class="xto-value-left">
+        <span class="xto-eyebrow">Part 2 — Where xto100x Comes In</span>
+        <h3>SolarMaxx has 12K followers<br>and <em>a real story to tell.</em></h3>
+        <p>xto100x builds the system to tell it. Every caption written, every post designed, every CEO video scripted. SolarMaxx approves and posts. No guesswork, no generic content, no festival graphics without a point.</p>
+      </div>
+      <div class="xto-grid">
+        <div class="xto-card"><span class="xc-title">Content</span><div class="xc-sub">Written, structured, and on-brand for every post</div></div>
+        <div class="xto-card"><span class="xc-title">Design</span><div class="xc-sub">Templated visuals with a recognisable brand system</div></div>
+        <div class="xto-card"><span class="xc-title">Strategy</span><div class="xc-sub">Monthly calendar, mix reviewed and adjusted weekly</div></div>
+        <div class="xto-card"><span class="xc-title">Growth</span><div class="xc-sub">12K to 50K followers in six months</div></div>
+      </div>
+    </div>
+
+    <!-- WHAT TO BUILD ON -->
+    <div class="sh">
+      <div class="sh-num">02</div>
+      <div class="sh-text"><h2>What xto100x Builds On</h2><p>Signals already in SolarMaxx's favour</p></div>
+      <div class="sh-rule"></div>
+    </div>
+    <div class="wg">
+      <div class="wc">
+        <div><span class="wc-stat" style="font-size:30px;">Daily</span></div>
+        <h4>They Already Post Consistently</h4>
+        <p>Most solar competitors go weeks without a post. SolarMaxx has the discipline. That's the hard part to build — it means a strategy can be dropped on top and start working immediately.</p>
+        <div class="tip">xto100x delivers a monthly content calendar so every slot is planned, written, and designed before the week begins</div>
+      </div>
+      <div class="wc">
+        <div><span class="wc-stat">12K</span><span class="wc-stat-lbl">followers</span></div>
+        <h4>A Real Audience Is Already There</h4>
+        <p>Building an audience from scratch takes months. SolarMaxx already has 12,000 people who chose to follow. That's a distribution asset that most early-stage companies would pay for — it just needs better content to activate.</p>
+        <div class="tip">xto100x turns a dormant 12K following into an engaged one with content they'll actually want to share</div>
+      </div>
+      <div class="wc">
+        <div><span class="wc-stat" style="font-size:30px;">Active</span></div>
+        <h4>Real Business Activity to Talk About</h4>
+        <p>The hiring posts show SolarMaxx is growing — multiple roles, multiple locations, including an international footprint. That's a compelling story. The problem is it's being left untold.</p>
+        <div class="tip">xto100x turns each hire, project win, and company milestone into a post that builds brand and drives inbound leads</div>
+      </div>
+    </div>
+
+    <!-- ACTION PLAN -->
+    <div class="sh" style="margin-bottom:24px">
+      <div class="sh-num">03</div>
+      <div class="sh-text"><h2>The Execution Plan</h2><p>12K to 50K in six months</p></div>
+      <div class="sh-rule"></div>
+    </div>
+    <div class="pg">
+      <div class="pc">
+        <div class="pc-hd p1">
+          <div class="pc-hd-label">Phase 1 — Week 1</div>
+          <h3>Fix the Foundation</h3>
+        </div>
+        <div class="pc-body">
+          <div class="pi"><div class="pid" style="background:var(--navy)"></div><p>Rewrite the About section with services, geography, USP, and a follow CTA</p></div>
+          <div class="pi"><div class="pid" style="background:var(--navy)"></div><p>Introduce Hook + Context + Insight + CTA structure on every post going forward</p></div>
+          <div class="pi"><div class="pid" style="background:var(--navy)"></div><p>Create a brand guidelines document: SolarMaxx blue + gold, font pair, logo placement rules</p></div>
+          <div class="pi"><div class="pid" style="background:var(--navy)"></div><p>Lock "SolarMaxx" as the one spelling used everywhere — page, captions, images</p></div>
+        </div>
+      </div>
+      <div class="pc">
+        <div class="pc-hd p2">
+          <div class="pc-hd-label">Phase 2 — Weeks 2 to 3</div>
+          <h3>Build the System</h3>
+        </div>
+        <div class="pc-body">
+          <div class="pi"><div class="pid" style="background:var(--green)"></div><p>Design the SolarMaxx brand kit: five post templates, blue + gold locked in, logo top-right always</p></div>
+          <div class="pi"><div class="pid" style="background:var(--green)"></div><p>Write the first industry post — DISCOM ratings and what they mean for solar project finance</p></div>
+          <div class="pi"><div class="pid" style="background:var(--green)"></div><p>Script the first CEO video: 60 seconds on India solar growth, ready to record</p></div>
+          <div class="pi"><div class="pid" style="background:var(--green)"></div><p>Deliver the first full monthly content calendar with post-by-post briefs</p></div>
+        </div>
+      </div>
+      <div class="pc">
+        <div class="pc-hd p3">
+          <div class="pc-hd-label">Phase 3 — Month 2 Onwards</div>
+          <h3>Grow the Audience</h3>
+        </div>
+        <div class="pc-body">
+          <div class="pi"><div class="pid" style="background:var(--blue)"></div><p>Weekly CEO thought leadership posts — xto100x ghostwrites, SolarMaxx posts</p></div>
+          <div class="pi"><div class="pid" style="background:var(--blue)"></div><p>"SolarMaxx Explains" series: PM-KUSUM, net metering, DISCOM ratings, rooftop ROI</p></div>
+          <div class="pi"><div class="pid" style="background:var(--blue)"></div><p>Project showcase posts with MW installed, CO₂ offset, and real location stories</p></div>
+          <div class="pi"><div class="pid" style="background:var(--blue)"></div><p>Customer testimonial series — social proof that converts followers into leads</p></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /page-audit -->
+
+<!-- ══ COMPARE PAGE ══ -->
+<div id="page-compare" class="page">
+
+  <div class="c-hero">
+    <div class="c-eyebrow-badge">Creative Redesign</div>
+    <div class="c-hero-lockup">
+      <img class="c-hero-logo" src="solarmaxx-logo.svg" alt="SolarMaxx" />
+      <span class="c-hero-x">×</span>
+      <span class="c-hero-partner">xto100x</span>
+    </div>
+    <p>SolarMaxx originals next to xto100x redesigns. Same brief, completely different execution.</p>
+    <div class="c-pills">
+      <div class="cp gold">SolarMaxx Redesigns</div>
+      <div class="cp">2 Hiring Posts</div>
+      <div class="cp">4 Carousel Slides</div>
+      <div class="cp">6 Posts Total</div>
+    </div>
+  </div>
+
+  <div class="itabs">
+    <button class="itb" onclick="showPane('ov-pane',this)">Overview</button>
+    <button class="itb active" onclick="showPane('hr1-pane',this)">Hiring Post 1</button>
+    <button class="itb" onclick="showPane('hr2-pane',this)">Hiring Post 2</button>
+    <button class="itb" onclick="showPane('carousel-pane',this)">Carousel Series</button>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div id="ov-pane" class="pane">
+    <div class="p-intro">
+      <h2>What xto100x Delivered for SolarMaxx</h2>
+      <p>Six posts redesigned — two hiring posts and a four-slide carousel series — showing what SolarMaxx content looks like with a real design system behind it.</p>
+    </div>
+    <div class="ov-stats">
+      <div class="os"><div class="n">6</div><div class="l">Posts redesigned</div></div>
+      <div class="os"><div class="n">2</div><div class="l">Hiring posts</div></div>
+      <div class="os"><div class="n">4</div><div class="l">Carousel slides</div></div>
+    </div>
+    <div class="ov-tbl-wrap">
+      <table class="ov-tbl">
+        <thead><tr><th>Design Element</th><th>SolarMaxx Original</th><th>xto100x Redesign</th></tr></thead>
+        <tbody>
+          <tr><td>Visual Identity</td><td><span class="tb">No consistent system</span></td><td><span class="tg">SolarMaxx blue + gold, fully locked</span></td></tr>
+          <tr><td>Typography</td><td><span class="tb">Inconsistent fonts across posts</span></td><td><span class="tg">Playfair Display headings + Poppins body, always</span></td></tr>
+          <tr><td>Logo Placement</td><td><span class="tb">Small, buried, position changes per post</span></td><td><span class="tg">Top-right, consistent size and breathing room</span></td></tr>
+          <tr><td>Color Usage</td><td><span class="tb">Generic stock colors, no brand logic</span></td><td><span class="tg">SolarMaxx navy + blue + gold accent, every post</span></td></tr>
+          <tr><td>Information Hierarchy</td><td><span class="tb">No clear headline or reading order</span></td><td><span class="tg">Bold headline, supporting subtext, clean body</span></td></tr>
+          <tr><td>Call to Action</td><td><span class="tb">Not present on any post</span></td><td><span class="tg">Branded SolarMaxx CTA on every design</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- HIRING POST 1 -->
+  <div id="hr1-pane" class="pane active">
+    <div class="p-intro">
+      <h2>Hiring Post 1 — Power Your Career</h2>
+      <p>A dual-mission headline, role cards with location chips, a benefits row, and a branded CTA footer. Same job opening. A completely different impression.</p>
+    </div>
+    <div class="cc">
+      <div class="cc-hd">
+        <div class="cc-num">1</div>
+        <div class="cc-hd-text">
+          <h3>Power Your Career. Power the Planet.</h3>
+          <p>SolarMaxx original vs xto100x redesign — same roles, structured for action</p>
+        </div>
+      </div>
+      <div class="cc-grid">
+        <div class="cc-col cc-orig">
+          <div class="col-label orig"><span class="dot"></span>SolarMaxx Original</div>
+          <img class="img-orig" src="sm-original-hiring.jpeg" alt="SolarMaxx Original Hiring Post" />
+        </div>
+        <div class="cc-col cc-ours">
+          <div class="badge-row">
+            <div class="col-label ours"><span class="dot"></span>xto100x Redesign</div>
+            <span class="our-star">Our Work</span>
+          </div>
+          <img class="img-ours" src="hiring-1.png" alt="xto100x Hiring Post Redesign 1" />
+        </div>
+      </div>
+      <div class="diff-bar">
+        <div class="diff-bar-label">What xto100x improved</div>
+        <div class="dg">
+          <div class="di"><div class="di-ico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div><strong>Mission-driven headline</strong><span>"Power Your Career. Power the Planet." replaces "Are You the One with a Growth Mindset?" — a cliché that says nothing about solar. The new line attracts mission-aligned candidates before they read a single role title.</span></div></div>
+          <div class="di"><div class="di-ico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div><strong>Role cards with location chips</strong><span>The original buries five roles in a plain text block. Each role now has its own card with a location chip — scannable in three seconds, no hunting required.</span></div></div>
+          <div class="di"><div class="di-ico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div><strong>Benefits visible at a glance</strong><span>Career growth, clean energy impact, collaborative culture — displayed as a visual icon row. Candidates see the offer before they decide whether to apply.</span></div></div>
+          <div class="di"><div class="di-ico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div><strong>Branded SolarMaxx CTA footer</strong><span>The original ends on a text line with an email easy to miss. The redesign closes with a full-width SolarMaxx branded footer — one visual element that handles the entire application CTA.</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HIRING POST 2 -->
+  <div id="hr2-pane" class="pane">
+    <div class="p-intro">
+      <h2>Hiring Post 2 — Build the Future of Solar</h2>
+      <p>An editorial team photo, a structured roles list, geographic ambition stated plainly, and a full-width application CTA. The original buries all of this in a text block.</p>
+    </div>
+    <div class="cc">
+      <div class="cc-hd">
+        <div class="cc-num">2</div>
+        <div class="cc-hd-text">
+          <h3>Build the Future of Solar With Us</h3>
+          <p>SolarMaxx alternate hiring layout — real team photo, open roles in a structured list, India &amp; Africa footprint on display</p>
+        </div>
+      </div>
+      <div class="cc-grid">
+        <div class="cc-col cc-orig">
+          <div class="col-label orig"><span class="dot"></span>SolarMaxx Original</div>
+          <img class="img-orig" src="sm-original-hiring.jpeg" alt="SolarMaxx Original Hiring Post" />
+        </div>
+        <div class="cc-col cc-ours">
+          <div class="badge-row">
+            <div class="col-label ours"><span class="dot"></span>xto100x Redesign</div>
+            <span class="our-star">Our Work</span>
+          </div>
+          <img class="img-ours" src="hiring-2.png" alt="xto100x Hiring Post Redesign 2" />
+        </div>
+      </div>
+      <div class="diff-bar">
+        <div class="diff-bar-label">What xto100x improved</div>
+        <div class="dg">
+          <div class="di"><div class="di-ico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div><strong>Real photo over stock illustration</strong><span>The SolarMaxx original uses a generic "man climbing stairs" illustration. The redesign uses an actual team photo on a SolarMaxx site. Authenticity builds trust — candidates want to see who they'd work with.</span></div></div>
+          <div class="di"><div class="di-ico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div><strong>Structured open roles list</strong><span>Roles are presented as a clean scannable list with department icons and location labels. No ambiguity about what's open or where it's based.</span></div></div>
+          <div class="di"><div class="di-ico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div><strong>Geographic ambition front and centre</strong><span>"A fast-growing renewable energy company with a footprint across India and Africa" signals scale. Candidates with ambition self-select in. The SolarMaxx original mentions none of this.</span></div></div>
+          <div class="di"><div class="di-ico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div><strong>Full-width SolarMaxx application banner</strong><span>A navy CTA banner with the application email in gold — impossible to miss. No scrolling back to find where to apply.</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAROUSEL SERIES -->
+  <div id="carousel-pane" class="pane">
+    <div class="p-intro">
+      <h2>Carousel Series: DISCOM Ratings</h2>
+      <p>A four-slide educational carousel on DISCOM ratings — the kind of content that makes SolarMaxx the credible voice in the room, not just another company posting festival graphics.</p>
+    </div>
+
+    <div class="carousel-grid">
+      <div class="carousel-card">
+        <img class="carousel-card-img" src="carousel-1.png" alt="Carousel Slide 1 — DISCOM Ratings Cover" />
+        <div class="carousel-card-body">
+          <span class="carousel-slide-num">Slide 01 / 04</span>
+          <h4>The Most Underused Number in Indian Renewables</h4>
+          <p>DISCOM ratings. Swipe to see why this single number decides whether your solar project makes money.</p>
+        </div>
+      </div>
+      <div class="carousel-card">
+        <img class="carousel-card-img" src="carousel-2.png" alt="Carousel Slide 2 — What the Grades Mean" />
+        <div class="carousel-card-body">
+          <span class="carousel-slide-num">Slide 02 / 04</span>
+          <h4>What the Grades Actually Mean</h4>
+          <p>A+ and A: lender-friendly, pay on time. B: bankable but tighter terms. C: lenders hesitate or walk away.</p>
+        </div>
+      </div>
+      <div class="carousel-card">
+        <img class="carousel-card-img" src="carousel-3.png" alt="Carousel Slide 3 — Three Checks Before Signing a PPA" />
+        <div class="carousel-card-body">
+          <span class="carousel-slide-num">Slide 03 / 04</span>
+          <h4>Three Checks Before You Sign a PPA</h4>
+          <p>Check the Integrated Rating on the Ministry of Power site. Check PRAAPTI for payment delays. Confirm your PPA has a payment security mechanism.</p>
+        </div>
+      </div>
+      <div class="carousel-card">
+        <img class="carousel-card-img" src="carousel-4.png" alt="Carousel Slide 4 — Auction Tariff vs DISCOM Rating" />
+        <div class="carousel-card-body">
+          <span class="carousel-slide-num">Slide 04 / 04</span>
+          <h4>The Auction Tariff Is the Headline. The DISCOM Rating Is the Reality.</h4>
+          <p>Read the rating first. Then decide where to build.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cc">
+      <div class="cc-hd">
+        <div class="cc-num">&#8734;</div>
+        <div class="cc-hd-text">
+          <h3>Why This Series Works for SolarMaxx</h3>
+          <p>xto100x makes SolarMaxx the credible voice in the room — not just another solar company posting holiday graphics</p>
+        </div>
+      </div>
+      <div class="diff-bar" style="border-top: none;">
+        <div class="dg">
+          <div class="di"><div class="di-ico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div><strong>A topic SolarMaxx can genuinely own</strong><span>DISCOM ratings are a real pain point for solar developers. Writing about this signals expertise — not content written by a generic marketing agency with no solar knowledge.</span></div></div>
+          <div class="di"><div class="di-ico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div><strong>Carousels have the best reach on LinkedIn</strong><span>They drive the highest dwell time and save rate of any format. Every swipe is a signal to the algorithm that the content is worth distributing further.</span></div></div>
+          <div class="di"><div class="di-ico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div><strong>SolarMaxx brand system on every slide</strong><span>Blue and gold throughout. SolarMaxx logo visible on every frame. A viewer who sees one slide recognises all four as SolarMaxx — that's what a brand system does.</span></div></div>
+          <div class="di"><div class="di-ico"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div><strong>Content designed to be saved and reshared</strong><span>Practical frameworks get saved. Saved posts get seen again. This works long after the post date — unlike a Holi graphic that disappears from feeds in 24 hours.</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-compare -->
+
+<footer>
+  Prepared by <strong>xto100x</strong> for <span class="brand-footer">SolarMaxx</span> &nbsp;·&nbsp; LinkedIn Audit + Design Comparison &nbsp;·&nbsp; May 2026
+</footer>
+
+<script>
+  setTimeout(() => document.getElementById('intro').classList.add('out'), 3400);
+  function showPage(id, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nb').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function showPane(id, btn) {
+    document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.itb').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
